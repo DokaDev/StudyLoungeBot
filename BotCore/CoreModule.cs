@@ -21,7 +21,7 @@ namespace BotCore {
         /// Runs the bot asynchronously.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <exception cref="InvalidOperationException">Client, CommandService, or LoggingService is null.</exception></exception>
+        /// <exception cref="InvalidOperationException">Client, CommandService, or LoggingService is null.</exception>
         public async Task RunAsync() {
             if(Client is null)
                 throw new InvalidOperationException("Client is null");
