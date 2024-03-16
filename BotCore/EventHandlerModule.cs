@@ -1,12 +1,42 @@
 ﻿using Discord.WebSocket;
 using Discord;
+using Discord.Interactions;
+using System.Numerics;
 
-namespace BotCore {
+namespace BotCore
+{
     public class EventHandlerModule {
-        public DiscordSocketClient? Client { get; private set; }
-        public EventHandlerModule(DiscordSocketClient? client) {
-            Client = client;
+        public CoreModule CoreModule { get; private set; }
+        public EventHandlerModule(CoreModule coreModule) {
+            CoreModule = coreModule;
         }
+
+        public async Task ReadyAsync() {
+            if(CoreModule.Client is null)
+                return;
+
+            Console.WriteLine("Bot ready");
+            if(CoreModule.Client.ShardId == 0) {
+                // Only one shard is ready, so we can do some one-time setup
+                await CoreModule.InteractionService.AddModuleAsync<CommandGroup>(null);
+
+                // Register the commands
+                // Based on GuildId for Test Server
+                ulong guildId = 1218399522393427998;
+                //try {
+                //    guildId = ulong.Parse(Environment.GetEnvironmentVariable("DiscordDevTestServerGuildId") ?? throw new InvalidOperationException("Not assigned variable to DiscordDevTestServerGuildId"));
+                //} catch(Exception ex) {
+                //    Console.WriteLine(ex);
+                //    return;
+                //}
+
+                await CoreModule.InteractionService.RegisterCommandsToGuildAsync(guildId);
+
+                // todo. Based on Global
+            }
+        }
+
+
         /// <summary>
         /// Handles the message updated event.
         /// </summary>
@@ -24,7 +54,10 @@ namespace BotCore {
         /// </summary>
         /// <param name="msg">the message received</param>
         public async Task MessageReceived(SocketMessage msg) {
-            if(msg.Author.Id == Client.CurrentUser.Id)
+            if(CoreModule.Client is null)
+                return;
+
+            if(msg.Author.Id == CoreModule.Client.CurrentUser.Id)
                 return;
 
             // Log the message to the console
