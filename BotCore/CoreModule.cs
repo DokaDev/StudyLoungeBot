@@ -1,9 +1,11 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
 namespace BotCore {
-    public class CoreModule { 
+    public class CoreModule {
+        public DiscordSocketConfig Config { get; private set; }
+
         public DiscordSocketClient? Client { get; private set; }
         public CommandService? CommandService { get; private set; }
         public LoggingService? LoggingService { get; private set; }
@@ -12,9 +14,15 @@ namespace BotCore {
         /// Initializes a new instance of the <see cref="CoreModule"/> class.
         /// </summary>
         public CoreModule() {
-            Client = new DiscordSocketClient();
+            Config = new() {
+                MessageCacheSize = 100,
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent,
+                AlwaysDownloadUsers = true
+            };
+
+            Client = new DiscordSocketClient(Config);
             CommandService = new CommandService();
-            LoggingService = new(Client, CommandService);
+            LoggingService = new(Client, CommandService);            
         }
 
         /// <summary>
@@ -30,14 +38,13 @@ namespace BotCore {
             if(LoggingService is null)
                 throw new InvalidOperationException("LoggingService is null");
 
-            DiscordSocketConfig config = new() { MessageCacheSize = 100 };
-
             // Token should be stored in a secure location
-            await Client.LoginAsync(TokenType.Bot, "token");
+            await Client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("DiscordToken"));
             await Client.StartAsync();
 
             // Handle events
             Client.MessageUpdated += MessageUpdated;
+            Client.MessageReceived += MessageReceived;
             Client.Ready += () => {
                 Console.WriteLine("Bot ready");
                 return Task.CompletedTask;
@@ -55,6 +62,15 @@ namespace BotCore {
             // If the message was not in the cache, downloading it will result in getting a copy of the message.
             IMessage msg = await before.GetOrDownloadAsync();
             Console.WriteLine($"{msg} -> {after}");
+        }
+
+        private async Task MessageReceived(SocketMessage msg) {
+            if(msg.Author.Id == Client.CurrentUser.Id)
+                return;
+
+            // Log the message to the console
+            Console.WriteLine($"{msg.Author.Username} -> {msg.Content}");
+            // todo. handle commands
         }
     }
 }

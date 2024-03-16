@@ -1,6 +1,6 @@
 ﻿using BotCore;
 
 CoreModule coreModule = new();
-Task.Run(coreModule.RunAsync);
+await coreModule.RunAsync();
 
 while(true) ;
