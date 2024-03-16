@@ -1,5 +1,6 @@
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 
 namespace BotCore {
@@ -9,6 +10,8 @@ namespace BotCore {
         public DiscordSocketClient? Client { get; private set; }
         public CommandService? CommandService { get; private set; }
         public LoggingService? LoggingService { get; private set; }
+
+        public InteractionService InteractionService { get; private set; }
 
         public EventHandlerModule? EventHandlerModule { get; private set; }
 
@@ -23,10 +26,11 @@ namespace BotCore {
             };
 
             Client = new DiscordSocketClient(Config);
-            CommandService = new CommandService();
-            LoggingService = new(Client, CommandService);
             
-            EventHandlerModule = new(Client);
+            CommandService = new CommandService();
+            InteractionService = new(Client);
+            EventHandlerModule = new(this);
+            LoggingService = new(this);                                
         }
 
         /// <summary>
@@ -49,9 +53,10 @@ namespace BotCore {
             // Handle events
             Client.MessageUpdated += EventHandlerModule.MessageUpdated;
             Client.MessageReceived += EventHandlerModule.MessageReceived;
-            Client.Ready += () => {
-                Console.WriteLine("Bot ready");
-                return Task.CompletedTask;
+            Client.Ready += EventHandlerModule.ReadyAsync;
+            Client.InteractionCreated += async (interaction) => {
+                var ctx = new SocketInteractionContext(Client, interaction);
+                await InteractionService.ExecuteCommandAsync(ctx, null);
             };
         }
     }
