@@ -10,6 +10,8 @@ namespace BotCore {
         public CommandService? CommandService { get; private set; }
         public LoggingService? LoggingService { get; private set; }
 
+        public EventHandlerModule? EventHandlerModule { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CoreModule"/> class.
         /// </summary>
@@ -22,7 +24,9 @@ namespace BotCore {
 
             Client = new DiscordSocketClient(Config);
             CommandService = new CommandService();
-            LoggingService = new(Client, CommandService);            
+            LoggingService = new(Client, CommandService);
+            
+            EventHandlerModule = new(Client);
         }
 
         /// <summary>
@@ -43,34 +47,12 @@ namespace BotCore {
             await Client.StartAsync();
 
             // Handle events
-            Client.MessageUpdated += MessageUpdated;
-            Client.MessageReceived += MessageReceived;
+            Client.MessageUpdated += EventHandlerModule.MessageUpdated;
+            Client.MessageReceived += EventHandlerModule.MessageReceived;
             Client.Ready += () => {
                 Console.WriteLine("Bot ready");
                 return Task.CompletedTask;
             };
-        }
-
-        /// <summary>
-        /// Handles the message updated event.
-        /// </summary>
-        /// <param name="before">cacheable message, so it may not exist</param>
-        /// <param name="after">updated message</param>
-        /// <param name="channel">the message was updated in</param>
-        /// <returns></returns>
-        private async Task MessageUpdated(Cacheable<IMessage, ulong> before, SocketMessage after, ISocketMessageChannel channel) {
-            // If the message was not in the cache, downloading it will result in getting a copy of the message.
-            IMessage msg = await before.GetOrDownloadAsync();
-            Console.WriteLine($"{msg} -> {after}");
-        }
-
-        private async Task MessageReceived(SocketMessage msg) {
-            if(msg.Author.Id == Client.CurrentUser.Id)
-                return;
-
-            // Log the message to the console
-            Console.WriteLine($"{msg.Author.Username} -> {msg.Content}");
-            // todo. handle commands
         }
     }
 }
