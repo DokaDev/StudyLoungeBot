@@ -33,6 +33,7 @@ namespace BotCore
                 await CoreModule.InteractionService.RegisterCommandsToGuildAsync(guildId);
 
                 // todo. Based on Global
+                await CoreModule.InteractionService.RegisterCommandsGloballyAsync();
             }
         }
 
