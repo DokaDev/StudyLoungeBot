@@ -32,6 +32,7 @@ namespace BotCore {
             embed.AddField(field => {
                 field.Name = "혼자하기";
                 field.Value = "https://gorisanson.github.io/pikachu-volleyball/ko/";
+                field.IsInline = false;
                 field.Name = "P2P 온라인 버전";
                 field.Value = "https://gorisanson.github.io/pikachu-volleyball-p2p-online/ko/";
                 field.IsInline = false;
