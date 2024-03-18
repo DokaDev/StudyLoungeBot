@@ -22,6 +22,24 @@ namespace BotCore {
             await Task.Delay(-1);
         }
 
+        [SlashCommand("valley", "피카츄배구")]
+        public async Task Valley() {
+            var embed = new EmbedBuilder()
+                .WithTitle($"피카츄 배구")
+                .WithColor(Color.Orange)      // Color.Blue
+                .WithCurrentTimestamp();    // Current Time
+
+            embed.AddField(field => {
+                field.Name = "혼자하기";
+                field.Value = "https://gorisanson.github.io/pikachu-volleyball/ko/";
+                field.Name = "P2P 온라인 버전";
+                field.Value = "https://gorisanson.github.io/pikachu-volleyball-p2p-online/ko/";
+                field.IsInline = false;
+            });
+
+            await RespondAsync(embed: embed.Build());
+        }
+
         /// <summary>
         /// 
         /// </summary>
