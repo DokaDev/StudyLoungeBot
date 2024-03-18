@@ -11,6 +11,22 @@ namespace BotCore {
             await RespondAsync("Pong!");
         }
 
+        // 
+        [SlashCommand("task", "새 태스크 생성")]
+        public async Task SetTask() {
+            //var embed = new EmbedBuilder()
+            //    .WithTitle($"에 대한 뉴스 검색 결과")
+            //    .WithColor(Color.Orange)      // Color.Blue
+            //    .WithCurrentTimestamp();    // Current Time
+            
+            await Task.Delay(-1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keywords"></param>
+        /// <param name="display"></param>
         [SlashCommand("news", "Get news from Naver")]
         public async Task GetNews(
             [Summary("keywords", "검색어")] string keywords,
@@ -28,7 +44,7 @@ namespace BotCore {
 
             //await RespondAsync(response.Length.ToString());
             string formatted = "";
-            foreach (NaverNewsModel news in response.NaverNews) {
+            foreach(NaverNewsModel news in response.NaverNews) {
                 formatted += $"[{news.Title}]({news.Link})\n";
             }
 
@@ -51,11 +67,12 @@ namespace BotCore {
                     break;
             }
 
-            // Embed가 비어있지 않으면 전송
             if(embed.Fields.Count > 0)
                 await RespondAsync(embed: embed.Build());
             else
                 await RespondAsync("no result found.");
         }
-    }    
+
+
+    }
 }
