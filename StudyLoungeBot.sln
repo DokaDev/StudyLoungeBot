@@ -5,9 +5,11 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotCore", "BotCore\BotCore.csproj", "{017E6D05-755F-4CA3-9D28-36A24777590E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrapNews", "ScrapNews\ScrapNews.csproj", "{167F2E3F-936F-44B6-B471-7C700A2FAB81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrapNews", "ScrapNews\ScrapNews.csproj", "{167F2E3F-936F-44B6-B471-7C700A2FAB81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequenceScheduler", "SequenceScheduler\SequenceScheduler.csproj", "{42D422C9-64E1-4D12-B5C7-16DF84AC3889}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SequenceScheduler", "SequenceScheduler\SequenceScheduler.csproj", "{42D422C9-64E1-4D12-B5C7-16DF84AC3889}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LlmSession", "LlmSession\LlmSession.csproj", "{D142EC8F-ECD8-4F9C-9F31-E50A5FB13B2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{42D422C9-64E1-4D12-B5C7-16DF84AC3889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42D422C9-64E1-4D12-B5C7-16DF84AC3889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42D422C9-64E1-4D12-B5C7-16DF84AC3889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D142EC8F-ECD8-4F9C-9F31-E50A5FB13B2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D142EC8F-ECD8-4F9C-9F31-E50A5FB13B2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D142EC8F-ECD8-4F9C-9F31-E50A5FB13B2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D142EC8F-ECD8-4F9C-9F31-E50A5FB13B2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
