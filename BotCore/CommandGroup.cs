@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using LunchMenu;
 using ScrapNews;
 using ScrapNews.Model;
 using System.Net;
@@ -10,6 +11,25 @@ namespace BotCore {
         [SlashCommand("ping", "Replies with pong")]
         public async Task Ping() {
             await RespondAsync("Pong!");
+        }
+
+        [SlashCommand("bob", "구내식당 메뉴")]
+        public async Task GetMenu() {
+            //test
+            GetImage get = new();
+            string imgPath = await get.Request();
+            Console.WriteLine(imgPath);
+            //await RespondAsync($"![image]({imgPath})");
+
+            imgPath = imgPath.Replace("https://www.bobful.com/bbs/view_image.php?fn=%2Fdata%2Ffile%2Fcook%2F", "https://www.bobful.com/data/file/cook/");
+
+            var embed = new EmbedBuilder()
+                .WithTitle("금주 구내식당 메뉴")
+                .WithImageUrl(imgPath);
+
+            await RespondAsync(embed: embed.Build());
+            
+            //await RespondAsync("https://www.koreatech.ac.kr/kor/CMS/Menu/Menu.do");
         }
 
         // 

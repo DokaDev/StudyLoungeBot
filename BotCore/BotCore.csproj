@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LunchMenu\LunchMenu.csproj" />
     <ProjectReference Include="..\ScrapNews\ScrapNews.csproj" />
+    <ProjectReference Include="..\SequenceScheduler\SequenceScheduler.csproj" />
   </ItemGroup>
 
 </Project>
