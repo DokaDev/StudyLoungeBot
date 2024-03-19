@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Interactions;
+using Discord.WebSocket;
 using ScrapNews;
 using ScrapNews.Model;
 using System.Net;
@@ -13,13 +14,18 @@ namespace BotCore {
 
         // 
         [SlashCommand("task", "새 태스크 생성")]
-        public async Task SetTask() {
+        public async Task SetTask(
+            [Summary("taskname", "태스크명")] string taskName,
+            [Summary("time", "몇분 뒤 실행?")] int time) {
+            SocketUser user = Context.User;
+            ISocketMessageChannel channel = Context.Channel;
+
             //var embed = new EmbedBuilder()
             //    .WithTitle($"에 대한 뉴스 검색 결과")
             //    .WithColor(Color.Orange)      // Color.Blue
             //    .WithCurrentTimestamp();    // Current Time
             
-            await Task.Delay(-1);
+            //await Task.Delay(-1);
         }
 
         [SlashCommand("valley", "피카츄배구")]
