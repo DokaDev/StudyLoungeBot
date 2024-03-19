@@ -1,29 +1,21 @@
-﻿
+﻿using System.Diagnostics;
+
 namespace SequenceScheduler.Strategies {
-    public class AlarmStrategy {
-        //public string TaskName { get; set; }
-        //public string Author { get; set; }
-        //public ulong GuildId { get; set; }
+    public class AlarmStrategy : IDisposable {
+        public Timer? Timer { get; private set; }
 
-        //public DateTime DateTime { get; set; }
 
-        //public Task? Task { get; set; }
-        ////public bool IsRunning { get; private set; } = false;
 
-        //public async Task RegisterTaskAsync() {
-        //    TaskManager.Tasks.Add(this);
-        //    Task.Run(RunAsync);
-        //}
+        public AlarmStrategy(TimeSpan due, TimeSpan interval) {
+            Timer = new(OnTimerElpased, null, due, interval);
+        }
 
-        //public async Task RunAsync() {
-        //    if(Task is null)
-        //        throw new ArgumentNullException(nameof(Task), "Task cannot be null.");
+        private void OnTimerElpased(object? state) {
+            Debug.WriteLine("Timer elapsed");
+        }
 
-        //    await Task;
-        //}
-
-        //public void Dispose() {
-        //    Task.Dispose();
-        //}
+        public void Dispose() {
+            Timer?.Dispose();
+        }
     }
 }
